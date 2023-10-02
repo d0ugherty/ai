@@ -161,4 +161,4 @@ cython_debug/
 
 # etc
 
-/*/*Tester.py
+**/*Tester.py
