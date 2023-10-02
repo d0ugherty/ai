@@ -75,23 +75,9 @@ def countsToProbs(countsDict):
         probabilityDict[item] = countsDict[item] / float(totalSum)
     return probabilityDict
 
+
 def computeUnigramProbs(word_list):
-    """ Calculates the probability distribution over individual words.
 
-    Arguments:
-       word_list - a list of strings corresponding to the
-                   sequence of words in a document. Words must
-                   be all lower-case with no punctuation.
-    Returns:
-       A dictionary mapping from words to probabilities.
-
-    Example:
-
-    >>> u = computeUnigramProbs(['i', 'think', 'therefore', 'i', 'am'])
-    >>> print u
-    {'i': 0.4, 'am': 0.2, 'think': 0.2, 'therefore': 0.2}
-
-    """
     unigrams = {}
     for word in word_list:
         if word not in unigrams:
@@ -101,30 +87,15 @@ def computeUnigramProbs(word_list):
         
     return countsToProbs(unigrams)
 
+
 def generateRandomUnigramSequence(unigrams, num_words):
-    """Generate a random sequence according to the provided probabilities.
 
-    Arguments:
-       unigrams -   Probability distribution over words (as returned by the
-                    computeUnigramProbs function).
-       num_words -  The number of words of random text to generate.
-
-    Returns:
-       The random string of words with each subsequent word separated by a
-       single space
-
-    Example:
-
-    >>> u = computeUnigramProbs(['i', 'think', 'therefore', 'i', 'am'])
-    >>> generateRandomUnigramSequence(u, 5)
-    'think i therefore i i'
-
-    """
     result = ""
     for i in range(num_words):
         next_word = selectRandomItem(unigrams)
         result += next_word + " "
     return result.rstrip()
+
 
 def computeBigramProbs(word_list):
 
@@ -173,32 +144,20 @@ def computeTrigramProbs(word_list):
     pass
 
 def generateRandomBigramSequence(first_word, bigrams, num_words):
-    """Generate a random sequence of words following the word pair
-    probabilities in the provided distribution.
+    
+    result = first_word + " "
+    curr_word = first_word
 
-    Arguments:
-       first_word -          This word will be the first word in the
-                             generated text.
-       bigrams -   Probability distribution over word pairs
-                             (as returned by the computeBigramProbs function).
-       num_words -           The number of words of random text to generate.
+    print(bigrams[curr_word])
 
-    Returns:
-       The random string of words with each subsequent word separated by a
-       single space.
+    for i in range(num_words):
+        next_word = selectRandomItem(bigrams[curr_word])
+        result += next_word + " "
+        curr_word = next_word
+        
+    return result.rstrip()
 
-    Example:
-    >>> b = computeBigramProbs(['i', 'think', 'therefore', 'i', 'am',\
-                               'i', 'think', 'i', 'think'])
-    >>> generateRandomBigramSequence('think', b, 5)
-    'think i think therefore i am'
 
-    >>> generateRandomBigramSequence('think', b, 5)
-    'think therefore i think therefore i'
-
-    """
-    # YOUR CODE HERE
-    pass
 
 def generateRandomTrigramSequence(first_word, second_word, bigrams, trigrams, num_words):
     """Generate a random sequence of words according to the provided
@@ -249,8 +208,8 @@ if __name__ == "__main__":
     # You can insert testing code here, or switch out the main method
     # to try bigrams or trigrams. 
 
-    computeBigramProbs(['i', 'think', 'therefore', 'i', 'am',\
+    bigrams = computeBigramProbs(['i', 'think', 'therefore', 'i', 'am',\
                                'i', 'think', 'i', 'think'])
     
-
+    print(generateRandomBigramSequence('think', bigrams, 5))
     #goUnigrams()
